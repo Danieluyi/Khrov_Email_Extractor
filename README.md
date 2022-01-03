@@ -1,5 +1,5 @@
 # Khrov_Email_Extractor
-Offline Email Extractor Application For PC
+Offline Email Extractor Application For Windows PC
 
 <!-- DISCLAIMER
 By downloading/running this free software, you consent to be fully responsible for your actions. I shall not be held liable for any damages or legal matters that may arise upon yur use of this program. -->
@@ -17,7 +17,7 @@ For the .com, .net and .org domain extensions.
 
 HOW TO USE:
 
-#1 Download the file named KHROV_Email_extractor.tar
+#1 Download the file named KHROV_Email_extractor.tar to your Windows PC
 
 #2 Extract and you will find 4 files within (KHROV_Email_extractor.exe, input.txt, output.txt, ReadMe.txt) 
 
