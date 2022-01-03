@@ -2,7 +2,7 @@
 Offline Email Extractor Application For PC
 
 <!-- DISCLAIMER
-By downloading this freeware, you're agreeing to be fully responsible for your actions. I shall not be held liable for any damages or legal matters that may arise upon yur use of this program. -->
+By downloading/running this free software, you consent to be fully responsible for your actions. I shall not be held liable for any damages or legal matters that may arise upon yur use of this program. -->
 
 This is the first draft of my mini email extractor app written from scratch (besides the use of write() function). Update for both aesthetics and improved cases will be coming soon.
 
