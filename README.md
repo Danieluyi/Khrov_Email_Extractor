@@ -14,12 +14,14 @@ lorem (AT) ipsum [DOT] com
 lorem *AT* ipsum *DOT* com
 For the .com, .net and .org domain extensions.
 
-HOW TO USE
+
+HOW TO USE:
+
 #1 Download the file named KHROV_Email_extractor.tar
 
 #2 Extract and you will find 4 files within (KHROV_Email_extractor.exe, input.txt, output.txt, ReadMe.txt) 
 
-#3 Open the text document named "input.txt" and paste the raw characters for email extraction into it
+#3 Open the text document named "input.txt" and paste the raw inputs into it
 
 #4 Save the "input.txt" and close.
 
