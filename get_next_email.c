@@ -6,7 +6,7 @@
 /*   By: euyi <euyi@student.42wolfsburg.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 22:08:11 by euyi              #+#    #+#             */
-/*   Updated: 2022/01/16 05:49:40 by euyi             ###   ########.fr       */
+/*   Updated: 2022/01/16 06:16:53 by euyi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,7 +275,12 @@ int main(void)
 	int input;
 	int output;
 	int i;
+	char a;
 	
+	write(1, "\tPaste The raw emails inside input.txt, then save and close the text file\n\tAfter saving the input.txt, press y and hit enter below: \n\tOtherwise, press any other key to exit program :\n\t", 184);
+	read(0, &a, 1);
+	if (a != 'y')
+		return (0);		
 	input = open("input.txt", O_RDONLY);
 	output = open("output.txt", O_WRONLY | O_APPEND);
 	i = get_next_email(output, input);
