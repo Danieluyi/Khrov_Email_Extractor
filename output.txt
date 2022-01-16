@@ -1,0 +1,7 @@
+#################### KHROV EMAIL EXTRACTOR ####################
+
+abcdef@foo.com, 
+green@mion.com, 
+hexcode@mot.com, 
+norma@beow.net, 
+cynthiamorgan@mew.com.ng, 

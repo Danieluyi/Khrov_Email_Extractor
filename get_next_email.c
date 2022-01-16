@@ -1,16 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   get_next_email.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: euyi <euyi@student.42wolfsburg.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 22:08:11 by euyi              #+#    #+#             */
-/*   Updated: 2022/01/03 03:38:10 by euyi             ###   ########.fr       */
+/*   Updated: 2022/01/16 05:49:40 by euyi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <strings.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Comments Coming soon
 
 size_t	ft_strlen(const char *s)
 {
@@ -37,10 +42,6 @@ void	remove_at(char *ptr)
 		ptr[i] = 1;
 }
 
-// FUNCTION TO SHIFT ALL CHARS BACK BY ONE ARRAY BYTE
-// FUNCTION OVERWRITES CHAR IN arr[0], 
-// AND RETURNS A strlen
-// NOT LONGER THAN 35 CHARACTERS
 char	*shift_back(char *ptr)
 {
 	int			i;
@@ -123,30 +124,32 @@ char	*one_email(char *src, char **str)
 	return (src);
 }
 
-char	*check_for_com(char *src)
+char	*check_for_com(char *s)
 {
-	int	i;
-
+	char	*ptr;
+	int		i;
+	int		j;
+	
 	i = 0;
-	if (!src[i])
+	j = 0;
+	if (!s || (s && !s[0]))
 		return (NULL);
-	while (src[i])
+	while (!email_char_check(s[i]) && s[0])
+		s++;
+	while (email_char_check(s[i]))
+		i++;
+	if (s[i] == 0 || i < 2)
+		return (NULL);
+	ptr = (char *) malloc(sizeof(char) * 30);
+	ptr[j] = '.';
+	while (j < i)
 	{
-		if ((src[i] == 'c' && src[i + 1] && src[i + 1] == 'o' && src[i + 2] && 
-				src[i + 2] == 'm') || (src[i] == 'C' && src[i + 1] && src[i + 1] == 'O' 
-				&& src[i + 2] && src[i + 2] == 'M'))
-			return (".com");
-		else if ((src[i] == 'n' && src[i + 1] && 
-				src[i + 1] == 'e' && src[i + 2] && src[i + 2] == 't') || (src[i] == 'N' 
-				&& src[i + 1] && src[i + 1] == 'E' && src[i + 2] && src[i + 2] == 'T'))
-			return (".net");	
-		else if	((src[i] == 'o' && src[i + 1] && src[i + 1] == 'r' && src[i + 2] && 
-				src[i + 2] == 'g') || (src[i] == 'O' && src[i + 1] && src[i + 1] == 'R' 
-				&& src[i + 2] && src[i + 2] == 'G'))
-			return (".org");
-		i++;		
+		ptr[j + 1] = s[j];
+		j++;
 	}
-	return (NULL);
+	if (ptr[j + 1] != 0)
+		ptr[j + 1] = 0;
+	return (ptr);
 }
 
 char	*check_for_dot(char *src)
@@ -160,26 +163,11 @@ char	*check_for_dot(char *src)
 	{
 		if (src[i] == '.' && src[i + 1])
 			return (src + (i + 1));
-		else if ((src[i] == '[' && src[i + 1] && src[i + 1] == 'd' && src[i + 2] && 
-				src[i + 2] == 'o' && src[i + 3] && src[i + 3] == 't' && src[i + 4] && 
-				src[i + 4] == ']') || (src[i] == '[' && src[i + 1] && src[i + 1] == 'D' 
-				&& src[i + 2] && src[i + 2] == 'O' && src[i + 3] && src[i + 3] == 'T' 
-				&& src[i + 4] && src[i + 4] == ']') || (src[i] == '(' && src[i + 1] && 
-				src[i + 1] == 'd' && src[i + 2] && src[i + 2] == 'o' && src[i + 3] && 
-				src[i + 3] == 't' && src[i + 4] && src[i + 4] == ')') || (src[i] == '(' 
-				&& src[i + 1] && src[i + 1] == 'D' && src[i + 2] && src[i + 2] == 'O' && 
-				src[i + 3] && src[i + 3] == 'T' && src[i + 4] && src[i + 4] == ')') || 
-				(src[i] == '*' && src[i + 1] && src[i + 1] == 'd' && src[i + 2] && 
-				src[i + 2] == 'o' && src[i + 3] && src[i + 3] == 't' && src[i + 4] && 
-				src[i + 4] == '*') || (src[i] == '*' && src[i + 1] && src[i + 1] == 'D' 
-				&& src[i + 2] && src[i + 2] == 'O' && src[i + 3] && src[i + 3] == 'T' && 
-				src[i + 4] && src[i + 4] == '*'))
+		else if (!strncasecmp(src + i, "[dot]", 5) || 
+			 	 !strncasecmp(src + i, "(dot)", 5) || 
+				 !strncasecmp(src + i, "*dot*", 5) )
 			{
-				src[i] = '.';
-				src[i + 1] = 1;
-				src[i + 2] = 1;
-				src[i + 3] = 1;
-				src[i + 4] = 1;
+				memcpy(src + i, ".\1\1\1\1", 5);
 				return (src + (i + 5));
 			}
 		i++;
@@ -207,23 +195,11 @@ char	*check_for_at(char *src)
 	{
 		if (src[i] == '@' && src[i + 1])
 			return (src + (i + 1));
-		else if ((src[i] == '[' && src[i + 1] && src[i + 1] == 'a' && src[i + 2] && 
-				src[i + 2] == 't' && src[i + 3] && src[i + 3] == ']') || (src[i] == 
-				'[' && src[i + 1] && src[i + 1] == 'A' && src[i + 2] && 
-				src[i + 2] == 'T' && src[i + 3] && src[i + 3] == ']') || (src[i] == 
-				'(' && src[i + 1] && src[i + 1] == 'a' && src[i + 2] && 
-				src[i + 2] == 't' && src[i + 3] && src[i + 3] == ')') || (src[i] == 
-				'(' && src[i + 1] && src[i + 1] == 'A' && src[i + 2] && 
-				src[i + 2] == 'T' && src[i + 3] && src[i + 3] == ')') || (src[i] == 
-				'*' && src[i + 1] && src[i + 1] == 'a' && src[i + 2] && 
-				src[i + 2] == 't' && src[i + 3] && src[i + 3] == '*') || (src[i] == 
-				'*' && src[i + 1] && src[i + 1] == 'A' && src[i + 2] && 
-				src[i + 2] == 'T' && src[i + 3] && src[i + 3] == '*'))
+		else if (!strncasecmp(src + i, "[at]", 4) || 
+				 !strncasecmp(src + i, "(at)", 4) || 
+				 !strncasecmp(src + i, "*at*", 4) )
 			{
-				src[i] = '@';
-				src[i + 1] = 1;
-				src[i + 2] = 1;
-				src[i + 3] = 1;
+				memcpy(src + i, "@\1\1\1", 4);
 				return (src + (i + 4));
 			}
 		i++;
@@ -289,6 +265,24 @@ int	get_next_email(int output, int input) // output emails to a new output and r
 		j = read(input, &ptr[34], 1);
 	}
 	return (counter);
+}
+
+#include <sys/stat.h>
+#include <fcntl.h>
+
+int main(void)
+{
+	int input;
+	int output;
+	int i;
+	
+	input = open("input.txt", O_RDONLY);
+	output = open("output.txt", O_WRONLY | O_APPEND);
+	i = get_next_email(output, input);
+	if (i > 0)
+		write(1, "\tSuccess!\n\t15 Email Addresses Saved to Output.txt\n", 50);
+	sleep(5);
+	return (0);
 }
 
 // we will assign report to -1, 0, and 1 return values of get_next_email()
